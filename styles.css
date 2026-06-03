@@ -1152,8 +1152,10 @@ p {
     }
     
     .footer-nav {
-        flex-direction: column;
-        gap: 16px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px 20px;
     }
     
     /* Bento mobile layouts stack helper */

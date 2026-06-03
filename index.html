@@ -857,8 +857,13 @@
         };
 
         // Resize handler
+        let lastWidth = window.innerWidth;
         window.addEventListener('resize', function() {
-            if (window.innerWidth >= 992) {
+            const currentWidth = window.innerWidth;
+            if (currentWidth === lastWidth) return;
+            lastWidth = currentWidth;
+            
+            if (currentWidth >= 992) {
                 document.querySelectorAll('.tab-section').forEach(sec => {
                     sec.style.display = 'block';
                 });
