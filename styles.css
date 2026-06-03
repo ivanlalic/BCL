@@ -119,7 +119,7 @@ p {
 
 /* Hero Section */
 .hero-section {
-    background-image: linear-gradient(rgba(8, 56, 46, 0.25), rgba(8, 56, 46, 0.45)), url('HeroImagen.png');
+    background-image: linear-gradient(rgba(8, 56, 46, 0.25), rgba(8, 56, 46, 0.45)), url('HeroImagen.webp');
     background-size: cover;
     background-position: center bottom;
     background-color: #08382E;
