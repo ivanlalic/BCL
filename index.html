@@ -266,21 +266,21 @@
                                 <div style="margin-bottom: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                                     <div>
                                         <label style="font-size: 0.72rem; font-weight: 700; color: var(--primary); display:block; margin-bottom:4px;">DÓLAR OFICIAL ($)</label>
-                                        <input type="number" id="inputDolar" value="1405" oninput="recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
+                                        <input type="text" inputmode="numeric" id="inputDolar" value="1.405" oninput="formatInputWithDots(this); recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
                                     </div>
                                     <div>
                                         <label style="font-size: 0.72rem; font-weight: 700; color: var(--primary); display:block; margin-bottom:4px;">PRECIO TN SOJA ($)</label>
-                                        <input type="number" id="inputPrecioSoja" value="465000" oninput="recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
+                                        <input type="text" inputmode="numeric" id="inputPrecioSoja" value="465.000" oninput="formatInputWithDots(this); recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
                                     </div>
                                 </div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                                     <div>
                                         <label style="font-size: 0.72rem; font-weight: 700; color: var(--primary); display:block; margin-bottom:4px;">COSTO BCL/HA (U$D)</label>
-                                        <input type="number" id="inputCostoBCL" value="11" oninput="recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
+                                        <input type="text" inputmode="numeric" id="inputCostoBCL" value="11" oninput="formatInputWithDots(this); recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
                                     </div>
                                     <div>
                                         <label style="font-size: 0.72rem; font-weight: 700; color: var(--primary); display:block; margin-bottom:4px;">RINDE EXTRA (KG/HA)</label>
-                                        <input type="number" id="inputRendimiento" value="269" oninput="recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
+                                        <input type="text" inputmode="numeric" id="inputRendimiento" value="269" oninput="formatInputWithDots(this); recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
                                     </div>
                                 </div>
                             </div>
@@ -418,12 +418,11 @@
             
             <div class="footer-socials">
                 <a href="https://wa.me/5493415449461" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-brands fa-youtube"></i></a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 BCL900. Todos los derechos reservados.</p>
+            <p style="font-weight: 700; color: rgba(255, 255, 255, 0.8); margin-bottom: 4px;"><i class="fa-solid fa-leaf text-accent me-1"></i> Creado por Edgardo Lalic - Biocharg - Carbosur SRL</p>
+            <p>© 2026 Respaldo de Ensayos Agrícolas BCL 900. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -457,6 +456,18 @@
         let mapInitialized = false;
         let map;
         let markersGroup;
+
+        // Input formatting helper
+        function formatInputWithDots(inputElement) {
+            let value = inputElement.value;
+            let clean = value.replace(/\./g, '');
+            if (!clean) {
+                inputElement.value = '';
+                return;
+            }
+            let formatted = new Intl.NumberFormat('es-AR').format(parseInt(clean, 10));
+            inputElement.value = formatted;
+        }
 
         // Data source
         const ensayos = [
@@ -534,6 +545,12 @@
             if (localStorage.getItem('bcl_precio')) document.getElementById('inputPrecioSoja').value = localStorage.getItem('bcl_precio');
             if (localStorage.getItem('bcl_costo')) document.getElementById('inputCostoBCL').value = localStorage.getItem('bcl_costo');
             if (localStorage.getItem('bcl_rendimiento')) document.getElementById('inputRendimiento').value = localStorage.getItem('bcl_rendimiento');
+
+            // Format initial values
+            ['inputDolar', 'inputPrecioSoja', 'inputCostoBCL', 'inputRendimiento'].forEach(id => {
+                let el = document.getElementById(id);
+                if (el) formatInputWithDots(el);
+            });
 
             let yieldTableHtml = "";
             let yieldCardsHtml = "";
@@ -623,10 +640,15 @@
 
         // Simulator formulas
         function recalculateEconomicData() {
-            const dolar = parseFloat(document.getElementById('inputDolar').value) || 0;
-            const precioSoja = parseFloat(document.getElementById('inputPrecioSoja').value) || 0;
-            const costoBCL_usd = parseFloat(document.getElementById('inputCostoBCL').value) || 0;
-            const rendimiento = parseFloat(document.getElementById('inputRendimiento').value) || 0;
+            const getCleanValue = (id) => {
+                let val = document.getElementById(id).value;
+                return parseFloat(val.replace(/\./g, '')) || 0;
+            };
+
+            const dolar = getCleanValue('inputDolar');
+            const precioSoja = getCleanValue('inputPrecioSoja');
+            const costoBCL_usd = getCleanValue('inputCostoBCL');
+            const rendimiento = getCleanValue('inputRendimiento');
 
             localStorage.setItem('bcl_dolar', dolar);
             localStorage.setItem('bcl_precio', precioSoja);

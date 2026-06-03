@@ -628,7 +628,7 @@ p {
 /* Footer style */
 .main-footer {
     background-color: #0c1614;
-    padding: 48px 24px;
+    padding: 24px 24px;
     color: rgba(255, 255, 255, 0.6);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -1147,7 +1147,7 @@ p {
     
     /* Footer mobile stack */
     .main-footer {
-        padding-bottom: 110px;
+        padding: 24px 16px 90px 16px;
     }
     .footer-top {
         flex-direction: column;
