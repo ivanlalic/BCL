@@ -1,0 +1,25 @@
+{
+    "name": "BCL 900",
+    "short_name": "BCL 900",
+    "icons": [
+        {
+            "src": "/favicon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#08382E",
+    "background_color": "#F4F6F4",
+    "display": "standalone",
+    "start_url": "/index.html"
+}
