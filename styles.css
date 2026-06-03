@@ -876,7 +876,7 @@ p {
     }
     
     body {
-        padding-bottom: 90px; /* Space for bottom nav bar */
+        padding-bottom: 0;
     }
     
     /* Header mobile alignment */
@@ -981,6 +981,7 @@ p {
     /* Responsive table adjustments for complete visibility */
     .table-responsive-wrapper {
         overflow: hidden !important;
+        max-height: none !important;
     }
     .table-premium {
         font-size: 0.68rem;
@@ -1145,6 +1146,9 @@ p {
     }
     
     /* Footer mobile stack */
+    .main-footer {
+        padding-bottom: 110px;
+    }
     .footer-top {
         flex-direction: column;
         text-align: center;
