@@ -885,8 +885,8 @@ p {
         padding: 12px 24px;
     }
     
-    /* Tab sections hidden by default on mobile */
-    .tab-section {
+    /* Tab sections hidden by default on mobile, except the home tab */
+    .tab-section:not(#inicio-tab):not(#inicio-content) {
         display: none;
     }
     
