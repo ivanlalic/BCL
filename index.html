@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCL 900 — Carbón Activado Líquido para Cultivo</title>
+    
+    <!-- Meta tags for SEO & sharing -->
+    <meta name="description" content="BCL 900 de Biocharg: Carbón activado líquido premium para tratamiento de semillas de soja, arveja y lenteja. Incremento promedio del 8% en rendimientos.">
+    <meta name="theme-color" content="#08382E">
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- External assets -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.24.1/plotly.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Extra styling for inline mockup elements -->
+    <style>
+        .collapsible-trigger {
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            width: 100%;
+            text-align: center;
+            font-family: var(--font-main);
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            margin-bottom: 24px;
+        }
+        .collapsible-trigger:hover {
+            background-color: var(--light-bg);
+            box-shadow: var(--shadow-md);
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        .collapsible-content.expanded {
+            max-height: 2000px;
+            transition: max-height 1s ease-in-out;
+        }
+        /* Style adjustments for map integration inside Dónde se probó */
+        #map {
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main Navigation Header -->
+    <header class="main-header">
+        <img src="LogoOscuro-removebg-preview.png" alt="BCL 900 Logo" class="header-logo">
+        
+        <nav class="desktop-nav">
+            <a href="#inicio-tab" class="active">Inicio</a>
+            <a href="#mapa-tab">Mapa</a>
+            <a href="#ensayos-tab">Ensayos</a>
+            <a href="#simulador-tab">Simulador</a>
+            <a href="#aplicacion-tab">Aplicación</a>
+        </nav>
+        
+        <button class="menu-btn" onclick="toggleMobileMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Tab 1: Inicio (Hero) -->
+    <div id="inicio-tab" class="tab-section">
+        <!-- Hero Section -->
+        <section class="hero-section" id="inicio">
+            <div class="hero-container animate-fade">
+                <span class="hero-badge"><i class="fa-solid fa-seedling"></i> Ensayos Soja 2026</span>
+                <h1 class="hero-title">Carbón activado<br>líquido <span class="text-accent">para cultivo</span></h1>
+                <p class="hero-subtitle">Aplicable en Soja, Arveja, Lentejas, entre otros.</p>
+                <div class="hero-ctas">
+                    <a href="#mapa-tab" class="btn-primary" onclick="if (window.innerWidth < 992) { switchTab('mapa'); }">Ver ensayos <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#aplicacion-tab" class="btn-secondary" onclick="if (window.innerWidth < 992) { switchTab('aplicacion'); }">Cómo se aplica <i class="fa-solid fa-chevron-down"></i></a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+
+        <!-- Tab 1: Inicio (Contenido restante) -->
+        <div id="inicio-content" class="tab-section">
+            <!-- Section 1: ¿Qué es BCL900? & KPIs -->
+            <section class="bento-card about-section animate-fade" id="que-es" style="animation-delay: 0.1s;">
+                <div class="about-text">
+                    <div class="title-section">
+                        <img src="LogoFOndoBlanco_Transparente.png" alt="Icon" onerror="this.style.display='none'">
+                        <h2>¿Qué es <span class="text-accent">BCL900</span>?</h2>
+                    </div>
+                    <p>BCL900 es un producto orgánico no biológico que actúa amortiguando el estrés abiótico y favoreciendo el desarrollo de la actividad biológica del suelo. Esto permite un mayor y mejor desarrollo de la planta, traduciéndose en mejores rendimientos.</p>
+                </div>
+                
+                <div class="kpis-wrapper">
+                    <p class="kpi-disclaimer"><i class="fa-solid fa-circle-info text-accent"></i> Datos obtenidos de ensayos 2026 en Soja</p>
+                    <div class="kpis-grid">
+                        <div class="kpi-card">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <p class="kpi-num">+269</p>
+                            <p class="kpi-txt">kg/ha rinde promedio</p>
+                        </div>
+                        <div class="kpi-card">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <p class="kpi-num">+8.0%</p>
+                            <p class="kpi-txt">salto de rendimiento</p>
+                        </div>
+                        <div class="kpi-card">
+                            <i class="fa-solid fa-star"></i>
+                            <p class="kpi-num">+526</p>
+                            <p class="kpi-txt">kg/ha máx. ganancia</p>
+                        </div>
+                        <div class="kpi-card">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <p class="kpi-num">100%</p>
+                            <p class="kpi-txt">casos positivos</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comparativa Promedio Bento Box -->
+            <section class="bento-card animate-fade" id="comparativa-promedio" style="animation-delay: 0.15s; padding: 32px;">
+                <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">Comparativa <span class="text-accent">promedio</span></h3>
+                
+                <div class="grid-2-col">
+                    <div class="comparativa-container" style="display: flex; flex-direction: column; justify-content: center; gap: 16px;">
+                        <div class="compare-row">
+                            <div class="compare-labels">
+                                <span>Testigo</span>
+                                <span>3.362 kg/ha</span>
+                            </div>
+                            <div class="bar-outer">
+                                <div class="bar-inner testigo"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="compare-row">
+                            <div class="compare-labels">
+                                <span style="color: var(--primary);">BCL900</span>
+                                <span style="color: var(--primary); font-weight: 800;">3.631 kg/ha</span>
+                            </div>
+                            <div class="bar-outer">
+                                <div class="bar-inner bcl"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="large-gain-badge" style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid var(--accent); background-color: rgba(144, 201, 95, 0.05); border-radius: var(--radius-md); padding: 16px; text-align: center;">
+                        <h4 style="font-size: 2.2rem; font-weight: 800; color: var(--primary); margin: 0;">+269 kg/ha</h4>
+                        <p style="font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; margin: 4px 0 0 0;">de rendimiento promedio extra ↗</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Tab 2: Mapa (Ensayos 2026) -->
+        <div id="mapa-tab" class="tab-section">
+            <section class="bento-card animate-fade" id="mapa-section" style="animation-delay: 0.2s;">
+                <div class="title-section">
+                    <h2>Ensayos <span class="text-accent">2026</span></h2>
+                </div>
+                
+                <div style="height: 450px; width: 100%; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border);">
+                    <div id="map"></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Tab 3: Ensayos -->
+        <div id="ensayos-tab" class="tab-section">
+            <!-- Planilla Completa y Gráficos -->
+            <section class="bento-card animate-fade" id="ensayos-completos" style="animation-delay: 0.25s;">
+                <div class="grid-2-col">
+                    <!-- Columna Izquierda: Tabla Física de Ensayos -->
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                            <h3 style="font-size: 1.1rem; margin:0;"><i class="fa-solid fa-database text-accent me-2"></i>Planilla de Ensayos</h3>
+                            <button class="btn-toggle-view" id="btnToggle" onclick="toggleYieldView()">
+                                <i class="fa-solid fa-grip-vertical"></i><span>Vista Tarjetas</span>
+                            </button>
+                        </div>
+                        
+                        <div class="search-input-wrapper">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="yieldSearch" class="search-input" placeholder="Buscar localidad, asesor..." onkeyup="filterYieldData()">
+                        </div>
+                        
+                        <div id="yieldTableView" class="table-responsive-wrapper" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table-premium">
+                                <thead>
+                                    <tr>
+                                        <th>Localidad<span class="hide-mobile"> / Asesor</span></th>
+                                        <th style="text-align: right;">Testigo</th>
+                                        <th style="text-align: right;">BCL 900</th>
+                                        <th style="text-align: right;">Dif.</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="yieldTableBody">
+                                    <!-- JS populated -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div id="yieldCardsView" style="display: none; max-height: 400px; overflow-y: auto;">
+                            <!-- JS populated -->
+                        </div>
+                    </div>
+                    
+                    <!-- Columna Derecha: Gráfico Plotly -->
+                    <div>
+                        <h3 style="font-size: 1.1rem; margin-bottom: 16px;"><i class="fa-solid fa-chart-column text-accent me-2"></i>Comparativa de Rendimientos</h3>
+                        <div id="chartYield" class="chart-container"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Tab 4: Simulador -->
+        <div id="simulador-tab" class="tab-section">
+            <!-- Simulador de Resultados Bento -->
+            <section class="bento-card animate-fade" id="simulador" style="animation-delay: 0.3s;">
+                <div class="title-section">
+                    <h2>Simulador de <span class="text-accent">resultados</span></h2>
+                </div>
+                
+                <div class="grid-2-col">
+                    <!-- Columna Izquierda: Parámetros e KPIs -->
+                    <div>
+                        <!-- Inputs de simulación -->
+                        <div class="simulator-inner-box-wrapper" style="margin-bottom: 24px;">
+                            <h3 style="font-size: 1.1rem; margin-bottom: 12px;"><i class="fa-solid fa-sliders text-accent me-2"></i>Parámetros de Mercado</h3>
+                            <div class="simulator-box" style="background-color: var(--light-bg); border: 1px dashed var(--accent); border-radius: var(--radius-md); padding: 16px;">
+                                <div style="margin-bottom: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                    <div>
+                                        <label style="font-size: 0.72rem; font-weight: 700; color: var(--primary); display:block; margin-bottom:4px;">DÓLAR OFICIAL ($)</label>
+                                        <input type="number" id="inputDolar" value="1405" oninput="recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 0.72rem; font-weight: 700; color: var(--primary); display:block; margin-bottom:4px;">PRECIO TN SOJA ($)</label>
+                                        <input type="number" id="inputPrecioSoja" value="465000" oninput="recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                    <div>
+                                        <label style="font-size: 0.72rem; font-weight: 700; color: var(--primary); display:block; margin-bottom:4px;">COSTO BCL/HA (U$D)</label>
+                                        <input type="number" id="inputCostoBCL" value="11" oninput="recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 0.72rem; font-weight: 700; color: var(--primary); display:block; margin-bottom:4px;">RINDE EXTRA (KG/HA)</label>
+                                        <input type="number" id="inputRendimiento" value="269" oninput="recalculateEconomicData()" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; font-weight:700;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- KPIs -->
+                        <div>
+                            <h3 style="font-size: 1.1rem; margin-bottom: 12px;"><i class="fa-solid fa-wallet text-accent me-2"></i>Retorno Estimado</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                <div style="background-color: var(--light-bg); border-left: 4px solid var(--carbon); border-radius: 8px; padding: 12px; text-align: center;">
+                                    <p id="kpi-sim-costo" style="font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 2px;">$15.400</p>
+                                    <span style="font-size:0.6rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Inversión/ha</span>
+                                </div>
+                                <div style="background-color: var(--light-bg); border-left: 4px solid #e53e3e; border-radius: 8px; padding: 12px; text-align: center;">
+                                    <p id="kpi-sim-indif" style="font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 2px;">33.5 kg</p>
+                                    <span style="font-size:0.6rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Rinde Indif.</span>
+                                </div>
+                                <div style="background-color: var(--light-bg); border-left: 4px solid #2e7d32; border-radius: 8px; padding: 12px; text-align: center;">
+                                    <p id="kpi-sim-ganancia" style="font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 2px;">$108.454</p>
+                                    <span id="lbl-sim-ganancia" style="font-size:0.6rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Ganancia Prom.</span>
+                                </div>
+                                <div style="background-color: var(--light-bg); border-left: 4px solid var(--accent); border-radius: 8px; padding: 12px; text-align: center;">
+                                    <p id="kpi-sim-roi" style="font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 2px;">7.0x</p>
+                                    <span style="font-size:0.6rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Retorno ROI</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Columna Derecha: Tabla de Margen Neto Ganado -->
+                    <div>
+                        <h3 style="font-size: 1.1rem; margin-bottom: 12px;"><i class="fa-solid fa-money-bill-trend-up text-accent me-2"></i>Margen Ganado por Localidad</h3>
+                        <div class="table-responsive-wrapper" style="max-height: 380px; overflow-y: auto;">
+                            <table class="table-premium">
+                                <thead>
+                                    <tr>
+                                        <th>Localidad<span class="hide-mobile"> / Asesor</span></th>
+                                        <th style="text-align: right;">Rinde<span class="hide-mobile"> Extra</span></th>
+                                        <th style="text-align: right;">Ganancia<span class="hide-mobile"> Neta</span>/ha</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="economicTableBody">
+                                    <!-- JS populated -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Tab 5: Aplicación -->
+        <div id="aplicacion-tab" class="tab-section">
+            <!-- Cómo se aplica steps -->
+            <section class="bento-card animate-fade" id="aplicacion" style="animation-delay: 0.35s;">
+                <div class="title-section">
+                    <h2>Cómo <span class="text-accent">se aplica</span></h2>
+                </div>
+                
+                <div class="steps-grid">
+                    <!-- Step 1 -->
+                    <div class="step-card">
+                        <div class="step-circle">1</div>
+                        <i class="fa-solid fa-bucket step-icon-img" style="font-size: 2.2rem; color: var(--primary); margin-bottom: 14px;"></i>
+                        <p>Destapá el balde.</p>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="step-card">
+                        <div class="step-circle">2</div>
+                        <i class="fa-solid fa-droplet step-icon-img" style="font-size: 2.2rem; color: var(--primary); margin-bottom: 14px;"></i>
+                        <p>Agregá 1 litro de líquido (curasemilla, inoculante, u otro) dentro del balde.</p>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="step-card">
+                        <div class="step-circle">3</div>
+                        <i class="fa-solid fa-spoon step-icon-img" style="font-size: 2.2rem; color: var(--primary); margin-bottom: 14px;"></i>
+                        <p>Revolvé llegando bien al fondo durante 3 minutos, hasta que el BCL900 quede totalmente líquido y sin grumos.</p>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="step-card">
+                        <div class="step-circle">4</div>
+                        <i class="fa-solid fa-cubes step-icon-img" style="font-size: 2.2rem; color: var(--primary); margin-bottom: 14px;"></i>
+                        <p>Recién ahí sumá el resto de los insumos (curasemilla, inoculante, etc.) y mezclá todo junto en otro balde de ser necesario.</p>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p><strong>Importante:</strong> Primero disolvé bien el BCL900. Recién después agregá el resto de los insumos.</p>
+                </div>
+            </section>
+
+            <!-- Video de aplicación & Contact card -->
+            <section class="interactive-section animate-fade" id="contacto" style="animation-delay: 0.4s;">
+                <!-- Left: Video tutorial -->
+                <div class="video-box">
+                    <h3>Video de <span class="text-accent">aplicación</span></h3>
+                    <div class="video-player-container">
+                        <video id="appVideo" playsinline loop muted controls poster="HeroImagen.png">
+                            <source src="BCL900_Aplicacion.mp4" type="video/mp4">
+                            Tu navegador no soporta la reproducción de video.
+                        </video>
+                        <div class="video-badge-overlay">Próximamente video tutorial</div>
+                    </div>
+                </div>
+            
+            <!-- Right: Contact Box (Dark theme, matches mockup) -->
+            <div class="contact-card-dark">
+                <h3>¿Querés saber más?</h3>
+                <p>Contactá a nuestro equipo comercial y llevá el rendimiento de tu cultivo al siguiente nivel.</p>
+                <a href="https://wa.me/5493415449461?text=Hola!%20Me%20interesa%20obtener%20más%20información%20sobre%20el%20producto%20BCL%20900." target="_blank" class="btn-whatsapp">
+                    Contactar por WhatsApp <i class="fa-brands fa-whatsapp" style="font-size: 1.25rem;"></i>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <img src="LogoOscuro-removebg-preview.png" alt="BCL 900 Logo" class="footer-logo">
+            
+            <nav class="footer-nav">
+                <a href="#inicio">Inicio</a>
+                <a href="#que-es">Qué es</a>
+                <a href="#resultados">Resultados</a>
+                <a href="#aplicacion">Aplicación</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+            
+            <div class="footer-socials">
+                <a href="https://wa.me/5493415449461" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 BCL900. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation Bar (Mobile only) -->
+    <nav class="bottom-nav">
+        <button class="nav-link active" id="inicio-tab-btn" onclick="switchTab('inicio')">
+            <i class="fa-solid fa-house"></i>
+            <span>Inicio</span>
+        </button>
+        <button class="nav-link" id="ensayos-tab-btn" onclick="switchTab('ensayos')">
+            <i class="fa-solid fa-chart-bar"></i>
+            <span>Ensayos</span>
+        </button>
+        <button class="nav-link" id="mapa-tab-btn" onclick="switchTab('mapa')">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <span>Mapa</span>
+        </button>
+        <button class="nav-link" id="simulador-tab-btn" onclick="switchTab('simulador')">
+            <i class="fa-solid fa-calculator"></i>
+            <span>Simulador</span>
+        </button>
+        <button class="nav-link" id="aplicacion-tab-btn" onclick="switchTab('aplicacion')">
+            <i class="fa-solid fa-seedling"></i>
+            <span>Uso</span>
+        </button>
+    </nav>
+
+    <!-- App scripts -->
+    <script>
+        let isYieldTableView = true;
+        let mapInitialized = false;
+        let map;
+        let markersGroup;
+
+        // Data source
+        const ensayos = [
+            { name: "Cañada de Gómez", asesor: "Pino (Branchesi)", tipo: 1, testigo: 3950, bcl: 4226, dif: 276, coords: [-32.816, -61.400] },
+            { name: "San Gerónimo", asesor: "Juan Pablo (Ara.)", tipo: 2, testigo: 4310, bcl: 4430, dif: 120, coords: [-32.903, -61.121] },
+            { name: "Máximo Paz", asesor: "Pino (Branchesi)", tipo: 1, testigo: 3160, bcl: 3540, dif: 380, coords: [-33.473, -60.916] },
+            { name: "Berabevú", asesor: "Coop (Stefano)", tipo: 1, testigo: 4653, bcl: 4835, dif: 182, coords: [-33.353, -61.683] },
+            { name: "Monge", asesor: "Atalaya (J. Pablo)", tipo: 1, testigo: 3895, bcl: 4132, dif: 237, coords: [-32.366, -60.866] },
+            { name: "San Pedro", asesor: "Adrián Rodríguez", tipo: 2, testigo: 1960, bcl: 2200, dif: 240, coords: [-33.679, -59.667] },
+            { name: "Victoria (E.R.)", asesor: "Juan Casarego", tipo: 2, testigo: 3400, bcl: 3600, dif: 200, coords: [-32.618, -60.154] },
+            { name: "Timbúes Tom.", asesor: "Juan P. (Tomagnol)", tipo: 2, testigo: 2870, bcl: 3050, dif: 180, coords: [-32.666, -60.800] },
+            { name: "Timbúes Cast.", asesor: "Juan P. (Aramburu)", tipo: 2, testigo: 3520, bcl: 3780, dif: 260, coords: [-32.650, -60.810] },
+            { name: "Ricardone", asesor: "Juan P. (Herman)", tipo: 2, testigo: 2960, bcl: 3196, dif: 236, coords: [-32.800, -60.783] },
+            { name: "Hernando Cord", asesor: "Piloto Ariel", tipo: 2, testigo: null, bcl: null, dif: null, coords: [-32.700, -62.000] },
+            { name: "Colón Bs As", asesor: "Franco Agosto", tipo: 1, testigo: 5400, bcl: 5600, dif: 200, coords: [-33.895, -61.101] },
+            { name: "Máximo Paz (G)", asesor: "Pino (Guille)", tipo: 2, testigo: 2445, bcl: 2971, dif: 526, coords: [-33.480, -60.930] },
+            { name: "Cañada de G. (2)", asesor: "Pino (Branchesi)", tipo: 2, testigo: 3100, bcl: 3300, dif: 200, coords: [-32.830, -61.415] },
+            { name: "Alvear", asesor: "Careaga", tipo: 1, testigo: 1500, bcl: 2000, dif: 500, coords: [-33.044, -60.627] },
+            { name: "Victoria", asesor: "Juan Casarego", tipo: 2, testigo: 3300, bcl: 3600, dif: 300, coords: [-32.630, -60.165] }
+        ];
+
+        // Format helpers
+        function formatMoney(value) {
+            if (isNaN(value) || value === null) return "-";
+            return "$" + new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(value);
+        }
+
+        function formatKg(val) {
+            if (val === null) return "-";
+            return new Intl.NumberFormat('es-AR').format(val);
+        }
+
+
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const nav = document.querySelector('.desktop-nav');
+            if (nav.style.display === 'flex') {
+                nav.style.display = 'none';
+            } else {
+                nav.style.display = 'flex';
+                nav.style.flexDirection = 'column';
+                nav.style.position = 'absolute';
+                nav.style.top = '68px';
+                nav.style.left = '0';
+                nav.style.width = '100%';
+                nav.style.backgroundColor = '#0c1614';
+                nav.style.padding = '20px';
+                nav.style.gap = '15px';
+            }
+        }
+
+        // Toggle Cards vs Table
+        function toggleYieldView() {
+            const tableElement = document.getElementById('yieldTableView');
+            const cardsElement = document.getElementById('yieldCardsView');
+            const buttonElement = document.getElementById('btnToggle');
+
+            if (isYieldTableView) {
+                tableElement.style.display = 'none';
+                cardsElement.style.display = 'block';
+                buttonElement.innerHTML = '<i class="fa-solid fa-table"></i><span>Vista Tabla</span>';
+                isYieldTableView = false;
+            } else {
+                tableElement.style.display = 'block';
+                cardsElement.style.display = 'none';
+                buttonElement.innerHTML = '<i class="fa-solid fa-grip-vertical"></i><span>Vista Tarjetas</span>';
+                isYieldTableView = true;
+            }
+        }
+
+        // UI Builders
+        function buildDashboard() {
+            if (localStorage.getItem('bcl_dolar')) document.getElementById('inputDolar').value = localStorage.getItem('bcl_dolar');
+            if (localStorage.getItem('bcl_precio')) document.getElementById('inputPrecioSoja').value = localStorage.getItem('bcl_precio');
+            if (localStorage.getItem('bcl_costo')) document.getElementById('inputCostoBCL').value = localStorage.getItem('bcl_costo');
+            if (localStorage.getItem('bcl_rendimiento')) document.getElementById('inputRendimiento').value = localStorage.getItem('bcl_rendimiento');
+
+            let yieldTableHtml = "";
+            let yieldCardsHtml = "";
+
+            ensayos.forEach((e) => {
+                const dotClass = e.tipo === 1 ? 'dot-1' : 'dot-2';
+                const labelSoja = e.tipo === 1 ? '1°' : '2°';
+                const labelCompleto = e.tipo === 1 ? 'soja de 1era' : 'soja de 2da';
+                const difStr = e.dif !== null ? `+${e.dif}` : "S/D";
+                const clsGain = e.dif !== null ? "text-gain" : "";
+
+                yieldTableHtml += `
+                    <tr class="yield-row" data-search="${e.name.toLowerCase()} ${e.asesor.toLowerCase()} ${labelCompleto}">
+                        <td>
+                            <b>${e.name}</b> <span class="dot-tipo ${dotClass}">${labelSoja}</span>
+                            <br><small style="color: #64748b;">${e.asesor}</small>
+                        </td>
+                        <td style="text-align: right; color: #64748b;">${formatKg(e.testigo)}</td>
+                        <td style="text-align: right; font-weight: 700; color: var(--primary);">${formatKg(e.bcl)}</td>
+                        <td style="text-align: right;" class="${clsGain}">${difStr}</td>
+                    </tr>
+                `;
+
+                yieldCardsHtml += `
+                    <div class="mobile-row-card yield-card" data-search="${e.name.toLowerCase()} ${e.asesor.toLowerCase()} ${labelCompleto}">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div>
+                                <b style="color: var(--carbon);">${e.name}</b>
+                                <br><small style="color: #64748b;">${e.asesor}</small>
+                            </div>
+                            <span class="badge-tipo ${dotClass}">Soja ${labelSoja}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
+                            <div class="mobile-yield-box">
+                                <small style="color: #94a3b8; display: block; font-size: 0.6rem; text-transform: uppercase;">Testigo</small>
+                                ${formatKg(e.testigo)}
+                            </div>
+                            <div class="mobile-yield-box">
+                                <small style="color: #94a3b8; display: block; font-size: 0.6rem; text-transform: uppercase;">BCL 900</small>
+                                <b>${formatKg(e.bcl)}</b>
+                            </div>
+                            <div class="mobile-yield-box" style="background-color: #e8f5e9; border-color: #a5d6a7;">
+                                <small style="color: #2e7d32; display: block; font-size: 0.6rem; text-transform: uppercase;">Dif.</small>
+                                <span class="text-gain">${difStr} kg</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Summary Average Row
+            yieldTableHtml += `
+                <tr id="rowPromedioTotal" style="background-color: #e8f5e9; border-top: 2px solid var(--primary); font-weight: bold;">
+                    <td>PROMEDIO</td>
+                    <td style="text-align: right; color: #2e7d32;">3.362</td>
+                    <td style="text-align: right; color: #2e7d32;">3.631</td>
+                    <td style="text-align: right; color: #2e7d32;">+269</td>
+                </tr>
+            `;
+
+            document.getElementById('yieldTableBody').innerHTML = yieldTableHtml;
+            document.getElementById('yieldCardsView').innerHTML = yieldCardsHtml;
+
+            recalculateEconomicData();
+        }
+
+        // Live filter logic
+        function filterYieldData() {
+            const query = document.getElementById('yieldSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('.yield-row');
+            rows.forEach(r => {
+                const text = r.getAttribute('data-search');
+                r.style.display = text.includes(query) ? "" : "none";
+            });
+            
+            const summaryRow = document.getElementById('rowPromedioTotal');
+            if (summaryRow) {
+                summaryRow.style.display = query === "" ? "" : "none";
+            }
+
+            const cards = document.querySelectorAll('.yield-card');
+            cards.forEach(c => {
+                const text = c.getAttribute('data-search');
+                c.style.display = text.includes(query) ? "" : "none";
+            });
+        }
+
+        // Simulator formulas
+        function recalculateEconomicData() {
+            const dolar = parseFloat(document.getElementById('inputDolar').value) || 0;
+            const precioSoja = parseFloat(document.getElementById('inputPrecioSoja').value) || 0;
+            const costoBCL_usd = parseFloat(document.getElementById('inputCostoBCL').value) || 0;
+            const rendimiento = parseFloat(document.getElementById('inputRendimiento').value) || 0;
+
+            localStorage.setItem('bcl_dolar', dolar);
+            localStorage.setItem('bcl_precio', precioSoja);
+            localStorage.setItem('bcl_costo', costoBCL_usd);
+            localStorage.setItem('bcl_rendimiento', rendimiento);
+
+            const costoHaARS = costoBCL_usd * dolar;
+
+            let totalDif = 0;
+            let countValidos = 0;
+            let totalGananciaNeto = 0;
+            let economicHtml = "";
+
+            ensayos.forEach(e => {
+                let netGainStr = "S/D";
+                let rowClass = "";
+                let rindeDisplay = "-";
+
+                if (e.dif !== null) {
+                    totalDif += e.dif;
+                    countValidos++;
+                    const ingresoHa = (e.dif / 1000) * precioSoja;
+                    const netGainARS = ingresoHa - costoHaARS;
+                    totalGananciaNeto += netGainARS;
+
+                    rindeDisplay = `+${e.dif} kg/ha`;
+                    netGainStr = formatMoney(netGainARS);
+                    rowClass = "text-money";
+                }
+
+                const dotClass = e.tipo === 1 ? 'dot-1' : 'dot-2';
+                const labelSoja = e.tipo === 1 ? '1°' : '2°';
+
+                economicHtml += `
+                    <tr>
+                        <td>
+                            <b>${e.name}</b> <span class="dot-tipo ${dotClass}">${labelSoja}</span>
+                            <br><small style="color: #64748b;">${e.asesor}</small>
+                        </td>
+                        <td style="text-align: right; color: #64748b;">${rindeDisplay}</td>
+                        <td style="text-align: right;" class="${rowClass}">${netGainStr}</td>
+                    </tr>
+                `;
+            });
+
+            // Simulated calculation logic
+            const ingresoSimulado = (rendimiento / 1000) * precioSoja;
+            const gananciaSimulada = ingresoSimulado - costoHaARS;
+            const roiSimulado = costoHaARS > 0 ? (gananciaSimulada / costoHaARS) : 0;
+
+            const simRowHtml = `
+                <tr style="background-color: rgba(144, 201, 95, 0.15); border-bottom: 2px solid var(--primary);">
+                    <td>
+                        <span class="badge-tipo dot-1" style="font-size:0.55rem; padding: 2px 6px; display: inline-block; margin-bottom: 4px;">TU SIMULACIÓN</span>
+                        <br><b>Personalizada</b>
+                    </td>
+                    <td style="text-align: right; font-weight: 700; color: #2e7d32; vertical-align: middle;">+${formatKg(rendimiento)} kg/ha</td>
+                    <td style="text-align: right; font-weight: 800; color: var(--primary); vertical-align: middle; font-size: 0.95rem;">${formatMoney(gananciaSimulada)}</td>
+                </tr>
+            `;
+
+            economicHtml = simRowHtml + economicHtml;
+            document.getElementById('economicTableBody').innerHTML = economicHtml;
+
+            // Update simulator KPI values
+            const rindeIndif = precioSoja > 0 ? (costoHaARS / (precioSoja / 1000)) : 0;
+            document.getElementById('kpi-sim-costo').innerText = formatMoney(costoHaARS);
+            document.getElementById('kpi-sim-indif').innerText = rindeIndif.toFixed(1) + " kg";
+            document.getElementById('kpi-sim-ganancia').innerText = formatMoney(gananciaSimulada);
+            document.getElementById('kpi-sim-roi').innerText = roiSimulado.toFixed(1) + "x";
+
+            const lblGanancia = document.getElementById('lbl-sim-ganancia');
+            if (lblGanancia) {
+                if (Math.abs(rendimiento - 269) < 0.5) {
+                    lblGanancia.innerText = "Ganancia Prom.";
+                } else {
+                    lblGanancia.innerText = "Ganancia Sim.";
+                }
+            }
+        }
+
+        // Render analytical charts
+        function renderCharts() {
+            const validos = ensayos.filter(e => e.dif !== null);
+            const etiquetasUnicas = validos.map(e => e.name);
+            const rindeTestigo = validos.map(e => e.testigo);
+            const rindeBCL = validos.map(e => e.bcl);
+
+            if (typeof Plotly !== 'undefined') {
+                const trace1 = { x: etiquetasUnicas, y: rindeTestigo, name: 'Testigo', type: 'bar', marker: { color: '#B8C4BC' } };
+                const trace2 = { x: etiquetasUnicas, y: rindeBCL, name: 'BCL 900', type: 'bar', marker: { color: '#08382E' } };
+
+                const layoutYield = {
+                    barmode: 'group', 
+                    margin: { l: 40, r: 10, t: 15, b: 80 },
+                    legend: { orientation: 'h', x: 0, y: -0.3 },
+                    xaxis: { tickangle: -45, font: { size: 9 } },
+                    yaxis: { title: 'kg/ha', gridcolor: '#e2e8f0' },
+                    plot_bgcolor: 'rgba(0,0,0,0)', 
+                    paper_bgcolor: 'rgba(0,0,0,0)'
+                };
+                Plotly.newPlot('chartYield', [trace1, trace2], layoutYield, { responsive: true, displayModeBar: false });
+            }
+        }
+
+        // Initialize Leaflet Map inside Dónde se probó
+        function initMap() {
+            if (typeof L === 'undefined') {
+                document.getElementById('map').innerHTML = '<p style="color:#94a3b8; text-align:center; padding:20px;">Sin conexión.</p>';
+                return;
+            }
+            if (!mapInitialized) {
+                // Leaflet map aligned to central area of trials
+                map = L.map('map', {zoomControl: false}).setView([-33.0000, -60.8000], 6);
+                
+                // Using CartoDB Positron light style map to match premium design
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                    maxZoom: 18
+                }).addTo(map);
+                
+                markersGroup = L.layerGroup().addTo(map);
+                mapInitialized = true;
+
+                ensayos.forEach(p => {
+                    if (p.dif === null) return;
+                    const labelSoja = p.tipo === 1 ? '1era' : '2da';
+
+                    const popupContent = `
+                        <div style="font-family: 'Plus Jakarta Sans', sans-serif; color: var(--carbon); width: 160px; line-height: 1.4;">
+                            <b style="color: var(--primary); font-size: 0.88rem;">${p.name}</b><br>
+                            <span style="font-size:0.65rem; color:#64748b;">Asesor: ${p.asesor}</span><br>
+                            <span style="font-size:0.65rem; font-weight:800; color:#2e7d32; display:block; margin: 4px 0;">+${p.dif} kg/ha de ganancia</span>
+                        </div>
+                    `;
+                    L.marker(p.coords).addTo(markersGroup).bindPopup(popupContent);
+                });
+                setTimeout(() => { map.invalidateSize(); }, 200);
+            }
+        }
+
+        // Tab switching logic for mobile
+        function switchTab(tabId) {
+            if (window.innerWidth >= 992) return;
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.bottom-nav .nav-link').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to clicked button
+            const activeBtn = document.getElementById(tabId + '-tab-btn');
+            if (activeBtn) activeBtn.classList.add('active');
+            
+            // Hide all tab sections
+            document.querySelectorAll('.tab-section').forEach(sec => {
+                sec.style.display = 'none';
+            });
+            
+            // Show selected tab sections
+            if (tabId === 'inicio') {
+                const elInicio = document.getElementById('inicio-tab');
+                const elContent = document.getElementById('inicio-content');
+                if (elInicio) elInicio.style.display = 'block';
+                if (elContent) elContent.style.display = 'block';
+            } else {
+                const elTab = document.getElementById(tabId + '-tab');
+                if (elTab) elTab.style.display = 'block';
+            }
+            
+            // Trigger Leaflet map resize or Plotly charts resize if needed
+            if (tabId === 'mapa') {
+                setTimeout(() => {
+                    if (map) {
+                        map.invalidateSize();
+                        map.setView([-33.0000, -60.8000], 6);
+                    }
+                }, 100);
+            } else if (tabId === 'ensayos') {
+                setTimeout(() => {
+                    renderCharts();
+                }, 100);
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+        
+        function initMobileTabs() {
+            if (window.innerWidth < 992) {
+                switchTab('inicio');
+            } else {
+                // On desktop, make sure all tab sections are visible
+                document.querySelectorAll('.tab-section').forEach(sec => {
+                    sec.style.display = 'block';
+                });
+            }
+        }
+
+        // Desktop scrollspy
+        window.addEventListener('scroll', function() {
+            if (window.innerWidth < 992) return;
+            
+            const scrollPos = window.scrollY + 120;
+            const sections = ['inicio-tab', 'mapa-tab', 'ensayos-tab', 'simulador-tab', 'aplicacion-tab'];
+            
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const top = el.offsetTop;
+                    const height = el.offsetHeight;
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        document.querySelectorAll('.desktop-nav a').forEach(a => {
+                            a.classList.remove('active');
+                            if (a.getAttribute('href') === '#' + id) {
+                                a.classList.add('active');
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        // On window load
+        window.onload = function () {
+            buildDashboard();
+            renderCharts();
+            initMap();
+            initMobileTabs();
+        };
+
+        // Resize handler
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 992) {
+                document.querySelectorAll('.tab-section').forEach(sec => {
+                    sec.style.display = 'block';
+                });
+                if (map) map.invalidateSize();
+            } else {
+                const activeBtn = document.querySelector('.bottom-nav .nav-link.active');
+                if (activeBtn) {
+                    const tabId = activeBtn.id.replace('-tab-btn', '');
+                    switchTab(tabId);
+                } else {
+                    switchTab('inicio');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

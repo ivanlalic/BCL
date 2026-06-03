@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Comercial Premium - Soja BCL 900</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.24.1/plotly.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #08382E;
+            --primary-light: #90C95F;
+            --primary-dark: #062a22;
+            --carbon: #181919;
+            --accent-color: #90C95F;
+            --bg-global: #F4F4F4;
+            --card-shadow: 0 6px 20px rgba(8, 56, 46, 0.06);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --bg-card: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --border-color: #e2e8f0;
+            --table-row: #f9fbf9;
+            --input-bg: #ffffff;
+            --box-bg: #f8faf9;
+        }
+
+        body {
+            background-color: var(--bg-global);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 75px;
+            /* Espacio para barra inferior */
+        }
+
+        .hero-header {
+            background: #08382E;
+            color: white;
+            padding: 30px 15px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            margin-bottom: 15px;
+        }
+
+        .hero-badge {
+            background: rgba(144, 201, 95, 0.18);
+            color: var(--accent-color);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .hero-logo {
+            height: 68px;
+            width: auto;
+            margin-bottom: 14px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 6px;
+        }
+        .kpi-card-premium {
+            background: white;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 12px 6px;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--primary-light);
+            text-align: center;
+            height: 100%;
+        }
+
+        .kpi-value {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 0px;
+        }
+
+        .kpi-label {
+            font-size: 0.68rem;
+            color: #7f8c8d;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0;
+            margin-top: 2px;
+        }
+
+        .content-card {
+            background: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .card-title-premium {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Simulador Económico inputs */
+        .simulator-inner-box {
+            background-color: #f8faf9;
+            border: 1px dashed var(--primary-light);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .simulator-inner-box label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+
+        .simulator-inner-box input {
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 6px;
+        }
+
+        /* Buscador / Filtro */
+        .search-input {
+            font-size: 0.85rem;
+            border-radius: 20px;
+            padding: 8px 15px;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 15px;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        /* Estilos Tabla */
+        .table-responsive-wrapper {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid #eef2f3;
+        }
+
+        .table-premium {
+            font-size: 0.8rem;
+            margin-bottom: 0;
+        }
+
+        .table-premium thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .table-premium th {
+            padding: 10px 4px;
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+        }
+
+        .table-premium td {
+            padding: 10px 4px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f6;
+        }
+
+        .table-premium tbody tr:nth-child(even) {
+            background-color: #f9fbf9;
+        }
+
+        /* Estilos Tarjetas Opcionales */
+        .mobile-row-card {
+            background: #fff;
+            border: 1px solid #eef2f3;
+            border-radius: var(--radius-md);
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .mobile-yield-box {
+            background: #f8faf9;
+            border-radius: 6px;
+            padding: 6px;
+            text-align: center;
+            font-size: 0.75rem;
+        }
+
+        .dot-tipo {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            border-radius: 50%;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-align: center;
+            margin-left: 3px;
+        }
+
+        .dot-1 {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+        .dot-2 {
+            background-color: #ECECEC;
+            color: #181919;
+            border: 1px solid #cfcfcf;
+        }
+
+        .badge-tipo {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+
+        .text-gain {
+            color: #2e7d32;
+            font-weight: 700;
+        }
+
+        .text-money {
+            color: #08382E;
+            font-weight: 800;
+        }
+
+        /* ESTILOS DE TEMA Y BOTTOM NAV */
+        .content-card,
+        .kpi-card-premium,
+        .mobile-row-card {
+            background-color: var(--bg-card);
+            box-shadow: var(--card-shadow);
+            border-color: var(--border-color);
+        }
+
+        .text-dark,
+        .card-title-premium,
+        .kpi-value {
+            color: var(--text-main) !important;
+        }
+
+        .text-muted,
+        .kpi-label {
+            color: var(--text-muted) !important;
+        }
+
+        .table-premium td {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-premium tbody tr:nth-child(even) {
+            background-color: var(--table-row);
+        }
+
+        .search-input {
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
+
+        .simulator-inner-box {
+            background-color: var(--box-bg);
+            border-color: var(--border-color);
+        }
+
+        .simulator-inner-box input {
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
+
+        .table-responsive-wrapper {
+            border-color: var(--border-color);
+        }
+
+        .mobile-yield-box {
+            background-color: var(--box-bg);
+        }
+
+        /* Menus Táctiles Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-card);
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 12px 0;
+            z-index: 1000;
+            border-top: 1px solid var(--border-color);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .bottom-nav .nav-link {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 8px;
+            flex: 1;
+            background: transparent;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .bottom-nav .nav-link.active {
+            color: var(--primary-color);
+            background: transparent;
+        }
+
+        .bottom-nav .nav-link i {
+            font-size: 1.25rem;
+        }
+
+        .btn-toggle-view {
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 20px;
+            padding: 4px 10px;
+            border: 1px solid var(--primary-light);
+            background-color: #fff;
+            color: var(--primary-color);
+        }
+
+        #map {
+            width: 100%;
+            height: 420px;
+            border-radius: var(--radius-md);
+            border: 1px solid #e2e8f0;
+            z-index: 1;
+        }
+
+        .chart-container {
+            width: 100%;
+            min-height: 380px;
+        }
+
+        .footer-brand {
+            text-align: center;
+            padding: 20px 0;
+            color: #7f8c8d;
+            font-size: 0.8rem;
+        }
+
+        /* ==========================================================================
+           DISEÑO DE COMPUTADORA / PC (DESKTOP)
+           ========================================================================== */
+        @media (min-width: 992px) {
+
+            /* Ocultar barra inferior táctil */
+            .bottom-nav {
+                display: none !important;
+            }
+
+            /* Eliminar espacio inferior de móvil */
+            body {
+                padding-bottom: 25px !important;
+            }
+
+            /* Mostrar todas las pestañas de forma simultánea */
+            .tab-content>.tab-pane {
+                display: block !important;
+                opacity: 1 !important;
+            }
+
+            /* Convertir contenedor principal de pestañas en un dashboard de 2 columnas */
+            #dashboardTabsContent {
+                display: grid;
+                grid-template-columns: 1.15fr 0.85fr;
+                gap: 20px;
+                align-items: start;
+            }
+
+            /* Estilos y orden de grilla */
+            #yield-pane {
+                grid-column: 1;
+            }
+
+            #sim-pane {
+                grid-column: 2;
+            }
+
+            #chart-pane {
+                grid-column: 1;
+            }
+
+            #map-pane {
+                grid-column: 2;
+            }
+
+            /* Forzar que el mapa llene mejor su espacio vertical */
+            #map {
+                height: 480px !important;
+            }
+
+            /* Centrar y limitar ancho en pantallas gigantes para evitar estiramiento extremo */
+            .container {
+                max-width: 1250px !important;
+                margin: 0 auto;
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+            }
+
+            /* Estilo para los títulos de sección en escritorio */
+            .card-title-premium {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero-header text-center position-relative">
+        <img src="https://cdn.shopify.com/s/files/1/0662/9919/9684/files/LogoOscuro.png?v=1780496512" alt="BCL 900" class="hero-logo" onerror="this.style.display='none'">
+        <div><span class="hero-badge"><i class="fa-solid fa-seedling me-1"></i> Ensayos Soja 2026</span></div>
+        <p class="hero-subtitle mb-0">Carbón Activado Líquido para Cultivo</p>
+    </div>
+
+    <div class="container px-2">
+
+        <div class="row g-2 mb-3">
+            <div class="col-3">
+                <div class="kpi-card-premium">
+                    <p class="kpi-value">+269 kg</p>
+                    <p class="kpi-label">Rinde Prom.</p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="kpi-card-premium" style="border-left-color: #08382E;">
+                    <p class="kpi-value">+8.0%</p>
+                    <p class="kpi-label">Salto Rinde</p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="kpi-card-premium" style="border-left-color: #5FAE6E;">
+                    <p class="kpi-value">+526 kg</p>
+                    <p class="kpi-label">Máx Ganancia</p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="kpi-card-premium" style="border-left-color: #181919;">
+                    <div class="kpi-value">100%</div>
+                    <p class="kpi-label">Casos Posit.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación superior eliminada para usar Bottom Nav -->
+
+        <div class="tab-content" id="dashboardTabsContent">
+
+            <div class="tab-pane fade show active" id="yield-pane" role="tabpanel" aria-labelledby="yield-tab">
+                <div class="content-card">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="card-title-premium" id="sectionTitle"><i class="fa-solid fa-list-check"></i> Ensayos
+                            Físicos de Rinde</div>
+                        <button class="btn-toggle-view" id="btnToggle" onclick="toggleYieldView()"><i
+                                class="fa-solid fa-grip-vertical me-1"></i> Vista Tarjetas</button>
+                    </div>
+
+                    <input type="text" id="yieldSearch" class="search-input"
+                        placeholder="🔍 Buscar por localidad, asesor o tipo (1°/2°)..." onkeyup="filterYieldData()">
+
+                    <div id="yieldTableView" class="table-responsive table-responsive-wrapper">
+                        <table class="table table-premium align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Localidad / Asesor</th>
+                                    <th class="text-end">Testigo</th>
+                                    <th class="text-end">BCL 900</th>
+                                    <th class="text-end">Dif.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="yieldTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="yieldCardsView" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="sim-pane" role="tabpanel" aria-labelledby="sim-tab">
+                <div class="content-card">
+                    <div class="card-title-premium mb-3"><i class="fa-solid fa-sliders text-success"></i> Parámetros de
+                        Mercado</div>
+
+                    <div class="simulator-inner-box">
+                        <div class="row g-2">
+                            <div class="col-6 mb-2">
+                                <label><i class="fa-solid fa-dollar-sign text-success me-1"></i>Dólar Oficial
+                                    ($)</label>
+                                <input type="number" id="inputDolar" class="form-control" value="1405"
+                                    oninput="recalculateEconomicData()">
+                            </div>
+                            <div class="col-6 mb-2">
+                                <label><i class="fa-solid fa-wheat-awn text-success me-1"></i>Precio Tn Soja ($)</label>
+                                <input type="number" id="inputPrecioSoja" class="form-control" value="465000"
+                                    oninput="recalculateEconomicData()">
+                            </div>
+                            <div class="col-6">
+                                <label><i class="fa-solid fa-tag text-success me-1"></i>Costo BCL/ha (u$d)</label>
+                                <input type="number" id="inputCostoBCL" class="form-control" value="11"
+                                    oninput="recalculateEconomicData()">
+                            </div>
+                            <div class="col-6">
+                                <label><i class="fa-solid fa-weight-hanging text-success me-1"></i>Rinde Extra
+                                    (kg/ha)</label>
+                                <input type="number" id="inputRendimiento" class="form-control" value="269"
+                                    oninput="recalculateEconomicData()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-3">
+                            <div class="kpi-card-premium" style="border-left-color: #181919; padding: 12px 2px;">
+                                <p class="kpi-value text-nowrap" id="kpi-sim-costo">$15.400</p>
+                                <p class="kpi-label" style="font-size:0.55rem; letter-spacing: -0.2px;">Inversión /ha
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="kpi-card-premium" style="border-left-color: #5FAE6E; padding: 12px 2px;">
+                                <p class="kpi-value text-nowrap" id="kpi-sim-indif">33.5 kg</p>
+                                <p class="kpi-label" style="font-size:0.55rem; letter-spacing: -0.2px;">Rinde Indif.</p>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="kpi-card-premium" style="border-left-color: #90C95F; padding: 12px 2px;">
+                                <p class="kpi-value text-nowrap" id="kpi-sim-ganancia">$108.454</p>
+                                <p class="kpi-label" style="font-size:0.55rem; letter-spacing: -0.2px;"
+                                    id="lbl-sim-ganancia">Ganancia Neta Prom.</p>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="kpi-card-premium" style="border-left-color: #08382E; padding: 12px 2px;">
+                                <div class="kpi-value text-nowrap" id="kpi-sim-roi">7.0x</div>
+                                <p class="kpi-label" style="font-size:0.55rem; letter-spacing: -0.2px;">Retorno ROI</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-title-premium mb-3"><i class="fa-solid fa-wallet text-success"></i> Margen Neto
+                        Ganado por el Productor</div>
+                    <div class="table-responsive table-responsive-wrapper">
+                        <table class="table table-premium align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Localidad / Asesor</th>
+                                    <th class="text-end">Rinde Extra</th>
+                                    <th class="text-end">Ganancia Neta/ha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="economicTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="chart-pane" role="tabpanel" aria-labelledby="chart-tab">
+                <div class="content-card">
+                    <div class="card-title-premium"><i class="fa-solid fa-chart-bar"></i> Comparativa Física: Testigo vs
+                        BCL 900 (kg/ha)</div>
+                    <div id="chartYield" class="chart-container"></div>
+                </div>
+                <div class="content-card">
+                    <div class="card-title-premium"><i class="fa-solid fa-bolt"></i> Rendimiento Extra Obtenido por
+                        Ensayo (kg/ha)</div>
+                    <div id="chartGain" class="chart-container"></div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="map-pane" role="tabpanel" aria-labelledby="map-tab">
+                <div class="content-card">
+                    <div class="card-title-premium"><i class="fa-solid fa-map-location-dot"></i> Ubicación y
+                        Rendimientos Satelital</div>
+                    <div id="map"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-brand">
+            <p class="mb-1" style="font-weight: 700; color: var(--primary-dark);"><i
+                    class="fa-solid fa-leaf text-success me-1"></i> Creado por Edgardo Lalic - Biocharg - Carbosur SRL
+            </p>
+            <p class="text-muted small" style="font-size:0.7rem;">© 2026 Respaldo de Ensayos Agrícolas BCL 900</p>
+        </div>
+    </div>
+
+    <script>
+        let isYieldTableView = true;
+        let mapInitialized = false;
+        let map;
+        let markersGroup;
+
+        const ensayos = [
+            { name: "Cañada de Gómez", asesor: "Pino (Branchesi)", tipo: 1, testigo: 3950, bcl: 4226, dif: 276, coords: [-32.816, -61.400] },
+            { name: "San Gerónimo", asesor: "Juan Pablo (Ara.)", tipo: 2, testigo: 4310, bcl: 4430, dif: 120, coords: [-32.903, -61.121] },
+            { name: "Máximo Paz", asesor: "Pino (Branchesi)", tipo: 1, testigo: 3160, bcl: 3540, dif: 380, coords: [-33.473, -60.916] },
+            { name: "Berabevú", asesor: "Coop (Stefano)", tipo: 1, testigo: 4653, bcl: 4835, dif: 182, coords: [-33.353, -61.683] },
+            { name: "Monge", asesor: "Atalaya (J. Pablo)", tipo: 1, testigo: 3895, bcl: 4132, dif: 237, coords: [-32.366, -60.866] },
+            { name: "San Pedro", asesor: "Adrián Rodríguez", tipo: 2, testigo: 1960, bcl: 2200, dif: 240, coords: [-33.679, -59.667] },
+            { name: "Victoria (E.R.)", asesor: "Juan Casarego", tipo: 2, testigo: 3400, bcl: 3600, dif: 200, coords: [-32.618, -60.154] },
+            { name: "Timbúes Tom.", asesor: "Juan P. (Tomagnol)", tipo: 2, testigo: 2870, bcl: 3050, dif: 180, coords: [-32.666, -60.800] },
+            { name: "Timbúes Cast.", asesor: "Juan P. (Aramburu)", tipo: 2, testigo: 3520, bcl: 3780, dif: 260, coords: [-32.650, -60.810] },
+            { name: "Ricardone", asesor: "Juan P. (Herman)", tipo: 2, testigo: 2960, bcl: 3196, dif: 236, coords: [-32.800, -60.783] },
+            { name: "Hernando Cord", asesor: "Piloto Ariel", tipo: 2, testigo: null, bcl: null, dif: null, coords: [-32.700, -62.000] },
+            { name: "Colón Bs As", asesor: "Franco Agosto", tipo: 1, testigo: 5400, bcl: 5600, dif: 200, coords: [-33.895, -61.101] },
+            { name: "Máximo Paz (G)", asesor: "Pino (Guille)", tipo: 2, testigo: 2445, bcl: 2971, dif: 526, coords: [-33.480, -60.930] },
+            { name: "Cañada de G. (2)", asesor: "Pino (Branchesi)", tipo: 2, testigo: 3100, bcl: 3300, dif: 200, coords: [-32.830, -61.415] },
+            { name: "Alvear", asesor: "Careaga", tipo: 1, testigo: 1500, bcl: 2000, dif: 500, coords: [-33.044, -60.627] },
+            { name: "Victoria", asesor: "Juan Casarego", tipo: 2, testigo: 3300, bcl: 3600, dif: 300, coords: [-32.630, -60.165] }
+        ];
+
+        function formatMoney(value) {
+            if (isNaN(value) || value === null) return "-";
+            return "$" + new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 }).format(value);
+        }
+
+        function formatKg(val) {
+            if (val === null) return "-";
+            return new Intl.NumberFormat('es-AR').format(val);
+        }
+
+        function toggleYieldView() {
+            const tableElement = document.getElementById('yieldTableView');
+            const cardsElement = document.getElementById('yieldCardsView');
+            const buttonElement = document.getElementById('btnToggle');
+
+            if (isYieldTableView) {
+                tableElement.style.display = 'none';
+                cardsElement.style.display = 'block';
+                buttonElement.innerHTML = '<i class="fa-solid fa-table me-1"></i> Vista Tabla';
+                isYieldTableView = false;
+            } else {
+                tableElement.style.display = 'block';
+                cardsElement.style.display = 'none';
+                buttonElement.innerHTML = '<i class="fa-solid fa-grip-vertical me-1"></i> Vista Tarjetas';
+                isYieldTableView = true;
+            }
+        }
+
+        function buildDashboard() {
+            if (localStorage.getItem('bcl_dolar')) document.getElementById('inputDolar').value = localStorage.getItem('bcl_dolar');
+            if (localStorage.getItem('bcl_precio')) document.getElementById('inputPrecioSoja').value = localStorage.getItem('bcl_precio');
+            if (localStorage.getItem('bcl_costo')) document.getElementById('inputCostoBCL').value = localStorage.getItem('bcl_costo');
+            if (localStorage.getItem('bcl_rendimiento')) document.getElementById('inputRendimiento').value = localStorage.getItem('bcl_rendimiento');
+
+            let yieldTableHtml = "";
+            let yieldCardsHtml = "";
+
+            ensayos.forEach((e, idx) => {
+                const dotClass = e.tipo === 1 ? 'dot-1' : 'dot-2';
+                const labelSoja = e.tipo === 1 ? '1°' : '2°';
+                const labelCompleto = e.tipo === 1 ? 'soja de 1era' : 'soja de 2da';
+                const difStr = e.dif !== null ? `+${e.dif}` : "S/D";
+                const clsGain = e.dif !== null ? "text-gain" : "";
+
+                yieldTableHtml += `
+                    <tr class="yield-row" data-search="${e.name.toLowerCase()} ${e.asesor.toLowerCase()} ${labelCompleto}">
+                        <td><b>${e.name}</b> <span class="dot-tipo ${dotClass}">${labelSoja}</span><br><small class="text-muted">${e.asesor}</small></td>
+                        <td class="text-end text-muted">${formatKg(e.testigo)}</td>
+                        <td class="text-end fw-bold">${formatKg(e.bcl)}</td>
+                        <td class="text-end ${clsGain}">${difStr}</td>
+                    </tr>
+                `;
+
+                yieldCardsHtml += `
+                    <div class="mobile-row-card yield-card" data-search="${e.name.toLowerCase()} ${e.asesor.toLowerCase()} ${labelCompleto}">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div><b class="text-dark">${e.name}</b><br><small class="text-muted">${e.asesor}</small></div>
+                            <span class="badge-tipo ${dotClass}">Soja de ${labelSoja}</span>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-4"><div class="mobile-yield-box"><small class="text-muted d-block">Testigo</small>${formatKg(e.testigo)}</div></div>
+                            <div class="col-4"><div class="mobile-yield-box"><small class="text-muted d-block">BCL 900</small><b>${formatKg(e.bcl)}</b></div></div>
+                            <div class="col-4"><div class="mobile-yield-box" style="background:#e8f5e9;"><small class="text-success d-block">Dif.</small><span class="text-gain">${difStr} kg</span></div></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            yieldTableHtml += `
+                <tr id="rowPromedioTotal" style="background-color: #e8f5e9; border-top: 2px solid var(--primary-color); font-weight: bold;">
+                    <td>PROMEDIO</td>
+                    <td class="text-end text-success">3.362</td>
+                    <td class="text-end text-success">3.631</td>
+                    <td class="text-end text-success">+269</td>
+                </tr>
+            `;
+
+            document.getElementById('yieldTableBody').innerHTML = yieldTableHtml;
+            document.getElementById('yieldCardsView').innerHTML = yieldCardsHtml;
+
+            recalculateEconomicData();
+        }
+
+        function filterYieldData() {
+            const query = document.getElementById('yieldSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('.yield-row');
+            rows.forEach(r => {
+                const text = r.getAttribute('data-search');
+                r.style.display = text.includes(query) ? "" : "none";
+            });
+            document.getElementById('rowPromedioTotal').style.display = query === "" ? "" : "none";
+
+            const cards = document.querySelectorAll('.yield-card');
+            cards.forEach(c => {
+                const text = c.getAttribute('data-search');
+                c.style.display = text.includes(query) ? "" : "none";
+            });
+        }
+
+        function recalculateEconomicData() {
+            const dolar = parseFloat(document.getElementById('inputDolar').value) || 0;
+            const precioSoja = parseFloat(document.getElementById('inputPrecioSoja').value) || 0;
+            const costoBCL_usd = parseFloat(document.getElementById('inputCostoBCL').value) || 0;
+            const rendimiento = parseFloat(document.getElementById('inputRendimiento').value) || 0;
+
+            localStorage.setItem('bcl_dolar', dolar);
+            localStorage.setItem('bcl_precio', precioSoja);
+            localStorage.setItem('bcl_costo', costoBCL_usd);
+            localStorage.setItem('bcl_rendimiento', rendimiento);
+
+            const costoHaARS = costoBCL_usd * dolar;
+
+            let totalDif = 0;
+            let countValidos = 0;
+            let totalGananciaNeto = 0;
+            let economicHtml = "";
+
+            ensayos.forEach(e => {
+                let netGainStr = "Sin Datos";
+                let rowClass = "";
+                let rindeDisplay = "-";
+
+                if (e.dif !== null) {
+                    totalDif += e.dif;
+                    countValidos++;
+                    const ingresoHa = (e.dif / 1000) * precioSoja;
+                    const netGainARS = ingresoHa - costoHaARS;
+                    totalGananciaNeto += netGainARS;
+
+                    rindeDisplay = `+${e.dif} kg/ha`;
+                    netGainStr = formatMoney(netGainARS);
+                    rowClass = "text-money";
+                }
+
+                const dotClass = e.tipo === 1 ? 'dot-1' : 'dot-2';
+                const labelSoja = e.tipo === 1 ? '1°' : '2°';
+
+                economicHtml += `
+                    <tr>
+                        <td><b>${e.name}</b> <span class="dot-tipo ${dotClass}">${labelSoja}</span><br><small class="text-muted">${e.asesor}</small></td>
+                        <td class="text-end fw-medium text-muted">${rindeDisplay}</td>
+                        <td class="text-end ${rowClass}">${netGainStr}</td>
+                    </tr>
+                `;
+            });
+
+            // Calcular valores simulados
+            const ingresoSimulado = (rendimiento / 1000) * precioSoja;
+            const gananciaSimulada = ingresoSimulado - costoHaARS;
+            const roiSimulado = costoHaARS > 0 ? (gananciaSimulada / costoHaARS) : 0;
+
+            // Fila de simulación destacada al inicio de la tabla
+            const simRowHtml = `
+                <tr style="background-color: rgba(27, 94, 32, 0.08); border-bottom: 2px solid var(--primary-color);">
+                    <td>
+                        <span class="badge bg-success text-white mb-1" style="font-size:0.6rem; padding: 2px 5px;"><i class="fa-solid fa-sliders me-1"></i>TU SIMULACIÓN</span><br>
+                        <b>Personalizada</b>
+                    </td>
+                    <td class="text-end fw-bold text-success" style="vertical-align: middle;">+${formatKg(rendimiento)} kg/ha</td>
+                    <td class="text-end text-money fw-bold text-success" style="vertical-align: middle; font-size: 0.95rem;">${formatMoney(gananciaSimulada)}</td>
+                </tr>
+            `;
+
+            economicHtml = simRowHtml + economicHtml;
+
+            document.getElementById('economicTableBody').innerHTML = economicHtml;
+
+            // Actualizar KPIs
+            const rindeIndif = precioSoja > 0 ? (costoHaARS / (precioSoja / 1000)) : 0;
+            document.getElementById('kpi-sim-costo').innerText = formatMoney(costoHaARS);
+            document.getElementById('kpi-sim-indif').innerText = rindeIndif.toFixed(1) + " kg";
+            document.getElementById('kpi-sim-ganancia').innerText = formatMoney(gananciaSimulada);
+            document.getElementById('kpi-sim-roi').innerText = roiSimulado.toFixed(1) + "x";
+
+            // Cambiar dinámicamente la etiqueta de la ganancia si es promedio o personalizada
+            const lblGanancia = document.getElementById('lbl-sim-ganancia');
+            if (lblGanancia) {
+                if (Math.abs(rendimiento - 269) < 0.5) {
+                    lblGanancia.innerText = "Ganancia Neta Prom.";
+                } else {
+                    lblGanancia.innerText = "Ganancia Neta Sim.";
+                }
+            }
+        }
+
+        function renderChartsAndMap() {
+            // Series derivadas directamente de "ensayos": si cambias un dato arriba, los gráficos se actualizan solos.
+            const validos = ensayos.filter(e => e.dif !== null);
+
+            const etiquetasUnicas = validos.map(e => e.name);
+            const rindeTestigo = validos.map(e => e.testigo);
+            const rindeBCL = validos.map(e => e.bcl);
+
+            if (typeof Plotly !== 'undefined') {
+                const trace1 = { x: etiquetasUnicas, y: rindeTestigo, name: 'Testigo', type: 'bar', marker: { color: '#B8C4BC' } };
+                const trace2 = { x: etiquetasUnicas, y: rindeBCL, name: 'BCL 900', type: 'bar', marker: { color: '#08382E' } };
+
+                const layoutYield = {
+                    barmode: 'group', margin: { l: 45, r: 15, t: 15, b: 110 },
+                    legend: { orientation: 'h', x: 0, y: -0.32 },
+                    xaxis: { tickangle: -45, font: { size: 9 } },
+                    yaxis: { title: 'kg/ha', gridcolor: '#f1f5f6' },
+                    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)'
+                };
+                Plotly.newPlot('chartYield', [trace1, trace2], layoutYield, { responsive: true, displayModeBar: false });
+
+                const ordenados = [...validos].sort((a, b) => a.dif - b.dif);
+                const etiquetasOrdenadas = ordenados.map(e => e.name);
+                const gananciasOrdenadas = ordenados.map(e => e.dif);
+
+                const traceGain = {
+                    x: gananciasOrdenadas, y: etiquetasOrdenadas, type: 'bar', orientation: 'h',
+                    marker: { color: gananciasOrdenadas, colorscale: [[0, '#90C95F'], [1, '#08382E']] },
+                    text: gananciasOrdenadas.map(g => `+${g} kg`), textposition: 'inside', insidetextanchor: 'end'
+                };
+
+                const layoutGain = {
+                    margin: { l: 130, r: 15, t: 15, b: 40 },
+                    xaxis: { title: 'Ganancia en Rinde (kg/ha)', gridcolor: '#f1f5f6' },
+                    yaxis: { font: { size: 9 } },
+                    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)'
+                };
+                Plotly.newPlot('chartGain', [traceGain], layoutGain, { responsive: true, displayModeBar: false });
+            } else {
+                const aviso = '<p class="text-muted text-center p-4">No se pudo cargar la librería de gráficos. Verifica tu conexión.</p>';
+                document.getElementById('chartYield').innerHTML = aviso;
+                document.getElementById('chartGain').innerHTML = aviso;
+            }
+
+            if (typeof L !== 'undefined') {
+                if (!mapInitialized) {
+                    map = L.map('map').setView([-33.0000, -60.8000], 7);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+                    markersGroup = L.layerGroup().addTo(map);
+                    mapInitialized = true;
+
+                    ensayos.forEach(p => {
+                        if (p.dif === null) return;
+                        const labelSoja = p.tipo === 1 ? '1era' : '2da';
+
+                        const popupContent = `
+                            <div class="leaflet-popup-content-value" style="color: #333;">
+                                <b style="color:#08382E; font-size:1rem;">${p.name}</b><br>
+                                <small class="text-muted">Asesor: ${p.asesor}</small><br>
+                                <span class="badge ${p.tipo === 1 ? 'bg-success' : 'bg-dark'} my-1">Soja de ${labelSoja}</span>
+                                <hr class="my-1">
+                                <table style="width:100%; font-size:0.82rem;">
+                                    <tr><td>Testigo:</td><td class="text-end text-muted">${formatKg(p.testigo)} kg</td></tr>
+                                    <tr><td>BCL 900:</td><td class="text-end fw-bold">${formatKg(p.bcl)} kg</td></tr>
+                                    <tr style="color:#2e7d32; font-weight:bold;"><td>Ganancia Rinde:</td><td class="text-end">+${p.dif} kg/ha</td></tr>
+                                </table>
+                            </div>
+                        `;
+                        L.marker(p.coords).addTo(markersGroup).bindPopup(popupContent);
+                    });
+                }
+                if (map) {
+                    setTimeout(() => { map.invalidateSize(); }, 200);
+                }
+            }
+        }
+
+        window.onload = function () {
+            buildDashboard();
+
+            // En móvil: renderizar al mostrarse la pestaña (ya con tamaño correcto), no en el click.
+            document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(btn => {
+                btn.addEventListener('shown.bs.tab', function (e) {
+                    const target = e.target.getAttribute('data-bs-target');
+                    if (target === '#chart-pane' || target === '#map-pane') {
+                        renderChartsAndMap();
+                    }
+                });
+            });
+
+            // En PC (pantalla ancha) se muestran todos los paneles a la vez: cargar de inmediato.
+            if (window.innerWidth >= 992) {
+                renderChartsAndMap();
+            }
+        };
+
+        // Redimensionamiento inteligente del mapa al cambiar tamaño de pantalla en PC
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 992 && mapInitialized && map) {
+                map.invalidateSize();
+            }
+        });
+    </script>
+
+    <nav class="bottom-nav nav nav-pills" id="dashboardTabsBottom" role="tablist">
+        <button class="nav-link active" id="yield-tab-btn" data-bs-toggle="tab" data-bs-target="#yield-pane"
+            type="button" role="tab">
+            <i class="fa-solid fa-table"></i><span>Ensayos</span>
+        </button>
+        <button class="nav-link" id="chart-tab-btn" data-bs-toggle="tab" data-bs-target="#chart-pane" type="button"
+            role="tab">
+            <i class="fa-solid fa-chart-pie"></i><span>Gráficos</span>
+        </button>
+        <button class="nav-link" id="map-tab-btn" data-bs-toggle="tab" data-bs-target="#map-pane" type="button"
+            role="tab">
+            <i class="fa-solid fa-map-location-dot"></i><span>Mapa</span>
+        </button>
+        <button class="nav-link" id="sim-tab-btn" data-bs-toggle="tab" data-bs-target="#sim-pane" type="button"
+            role="tab">
+            <i class="fa-solid fa-calculator"></i><span>Simulador</span>
+        </button>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
