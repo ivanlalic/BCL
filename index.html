@@ -597,6 +597,8 @@
         function formatKg(val) {
             if (val === null) return "-";
             return new Intl.NumberFormat('es-AR').format(val);
+        }
+
         // Toggle sound for preparation video
         function toggleVideoSound(event) {
             if (event) event.stopPropagation();
