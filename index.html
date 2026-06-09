@@ -477,11 +477,14 @@
                 <!-- Left: Video tutorial -->
                 <div class="video-box">
                     <h3>Video de <span class="text-accent">preparación</span></h3>
-                    <div class="video-player-container">
+                    <div class="video-player-container vertical-video">
                         <video id="appVideo" playsinline loop muted controls poster="HeroImagen.webp">
                             <source src="BCL900_Preparacion1.mp4" type="video/mp4">
                             Tu navegador no soporta la reproducción de video.
                         </video>
+                        <button id="videoSoundToggle" class="video-sound-btn" onclick="toggleVideoSound(event)" title="Activar/Silenciar sonido">
+                            <i class="fa-solid fa-volume-xmark"></i>
+                        </button>
                         <div class="video-badge-overlay">Video Instructivo</div>
                     </div>
                 </div>
@@ -541,8 +544,8 @@
             <span>Simulador</span>
         </button>
         <button class="nav-link" id="aplicacion-tab-btn" onclick="switchTab('aplicacion')">
-            <i class="fa-solid fa-seedling"></i>
-            <span>Uso</span>
+            <i class="fa-solid fa-circle-play"></i>
+            <span>Preparar</span>
         </button>
     </nav>
 
@@ -594,9 +597,21 @@
         function formatKg(val) {
             if (val === null) return "-";
             return new Intl.NumberFormat('es-AR').format(val);
+        // Toggle sound for preparation video
+        function toggleVideoSound(event) {
+            if (event) event.stopPropagation();
+            const video = document.getElementById('appVideo');
+            const btn = document.getElementById('videoSoundToggle');
+            if (video && btn) {
+                video.muted = !video.muted;
+                const icon = btn.querySelector('i');
+                if (video.muted) {
+                    icon.className = 'fa-solid fa-volume-xmark';
+                } else {
+                    icon.className = 'fa-solid fa-volume-high';
+                }
+            }
         }
-
-
 
         // Mobile menu toggle
         function toggleMobileMenu() {
