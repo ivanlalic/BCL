@@ -476,13 +476,13 @@
             <section class="interactive-section animate-fade" id="contacto" style="animation-delay: 0.4s;">
                 <!-- Left: Video tutorial -->
                 <div class="video-box">
-                    <h3>Video de <span class="text-accent">aplicación</span></h3>
+                    <h3>Video de <span class="text-accent">preparación</span></h3>
                     <div class="video-player-container">
                         <video id="appVideo" playsinline loop muted controls poster="HeroImagen.webp">
-                            <source src="BCL900_Aplicacion.mp4" type="video/mp4">
+                            <source src="BCL900_Preparacion1.mp4" type="video/mp4">
                             Tu navegador no soporta la reproducción de video.
                         </video>
-                        <div class="video-badge-overlay">Próximamente video tutorial</div>
+                        <div class="video-badge-overlay">Video Instructivo</div>
                     </div>
                 </div>
             
@@ -926,6 +926,14 @@
                 setTimeout(() => {
                     renderCharts();
                 }, 100);
+            }
+            
+            // Si se cambia de pestaña en móvil y el destino no es aplicación, pausar video
+            if (tabId !== 'aplicacion') {
+                const video = document.getElementById('appVideo');
+                if (video && !video.paused) {
+                    video.pause();
+                }
             }
             
             window.scrollTo({ top: 0, behavior: 'instant' });
