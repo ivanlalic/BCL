@@ -1,23 +1,27 @@
 /* BCL 900 Landing Page — Mockup-Aligned Stylesheet */
 
 :root {
-    --primary: #08382E;         /* Dark Forest Green */
-    --accent: #90C95F;          /* Lime Green */
-    --carbon: #181919;          /* Charcoal Black */
-    --light-bg: #F4F6F4;        /* Soft Off-White/Greenish background */
+    --primary: #08382E;
+    /* Dark Forest Green */
+    --accent: #90C95F;
+    /* Lime Green */
+    --carbon: #181919;
+    /* Charcoal Black */
+    --light-bg: #F4F6F4;
+    /* Soft Off-White/Greenish background */
     --white: #ffffff;
     --border: #e8ece9;
     --text-muted: #64748b;
-    
+
     --font-main: 'Plus Jakarta Sans', sans-serif;
-    
+
     --shadow-sm: 0 4px 12px rgba(8, 56, 46, 0.03);
     --shadow-md: 0 10px 30px rgba(8, 56, 46, 0.05);
-    
+
     --radius-sm: 8px;
     --radius-md: 14px;
     --radius-lg: 20px;
-    
+
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -41,7 +45,10 @@ body {
 }
 
 /* Typography styling matching mockup editorial layout */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     color: var(--primary);
     font-weight: 800;
 }
@@ -206,7 +213,8 @@ p {
 /* Page container */
 .main-container {
     max-width: 1200px;
-    margin: -100px auto 0 auto; /* Pull up to overlay with hero curve */
+    margin: -100px auto 0 auto;
+    /* Pull up to overlay with hero curve */
     position: relative;
     z-index: 10;
     padding: 0 24px;
@@ -370,7 +378,8 @@ p {
 
 .bar-inner.testigo {
     background-color: #94a3b8;
-    width: 92.5%; /* Calculated relative to BCL900 max */
+    width: 92.5%;
+    /* Calculated relative to BCL900 max */
 }
 
 .bar-inner.bcl {
@@ -475,7 +484,7 @@ p {
     font-size: 2.2rem;
     color: var(--primary);
     margin-bottom: 16px;
-    filter: drop-shadow(0 2px 4px rgba(8,56,46,0.1));
+    filter: drop-shadow(0 2px 4px rgba(8, 56, 46, 0.1));
 }
 
 .step-card p {
@@ -863,33 +872,36 @@ p {
 }
 
 .tab-section {
-    display: block; /* Desktop is single-page */
+    display: block;
+    /* Desktop is single-page */
 }
 
 /* ==========================================================================
    RESPONSIVE LAYOUT (MockUpMobile.png alignment)
    ========================================================================== */
 @media (max-width: 991px) {
+
     /* Hide top nav items and menu button entirely */
-    .desktop-nav, .menu-btn {
+    .desktop-nav,
+    .menu-btn {
         display: none !important;
     }
-    
+
     body {
         padding-bottom: 0;
     }
-    
+
     /* Header mobile alignment */
     .main-header {
         justify-content: center;
         padding: 12px 24px;
     }
-    
+
     /* Tab sections hidden by default on mobile, except the home tab */
     .tab-section:not(#inicio-tab):not(#inicio-content) {
         display: none;
     }
-    
+
     /* Bottom Navigation Bar for Mobile */
     .bottom-nav {
         display: flex;
@@ -907,7 +919,7 @@ p {
         border-top: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 20px 20px 0 0;
     }
-    
+
     .bottom-nav .nav-link {
         text-align: center;
         color: rgba(255, 255, 255, 0.55);
@@ -924,94 +936,103 @@ p {
         flex: 1;
         transition: var(--transition);
     }
-    
+
     .bottom-nav .nav-link i {
         font-size: 1.25rem;
         transition: var(--transition);
     }
-    
+
     .bottom-nav .nav-link.active {
         color: var(--accent);
     }
-    
+
     .bottom-nav .nav-link.active i {
         transform: scale(1.15);
     }
-    
+
     /* Hero section adjustments */
     .hero-section {
         padding: 80px 20px 140px 20px;
         text-align: center;
     }
-    
+
     .hero-container {
         align-items: center;
     }
-    
+
     .hero-title {
         font-size: 2.2rem;
         max-width: 100%;
     }
-    
+
     .hero-subtitle {
         font-size: 0.95rem;
         max-width: 100%;
         margin-bottom: 28px;
     }
-    
+
     .hero-ctas {
         display: none !important;
     }
-    
-    .btn-primary, .btn-secondary {
+
+    .btn-primary,
+    .btn-secondary {
         width: 100%;
         justify-content: center;
     }
-    
+
     /* Main container on mobile: no global negative margin, only for homepage content overlay */
     .main-container {
         margin-top: 24px;
         padding: 0 16px;
     }
-    
+
     #inicio-content {
-        margin-top: -120px; /* Pull homepage bento card higher over hero */
+        margin-top: -120px;
+        /* Pull homepage bento card higher over hero */
     }
-    
+
     /* Responsive table adjustments for complete visibility */
     .table-responsive-wrapper {
         overflow: hidden !important;
         max-height: none !important;
     }
+
     .table-premium {
         font-size: 0.68rem;
         table-layout: fixed;
         width: 100%;
     }
-    .table-premium th, .table-premium td {
+
+    .table-premium th,
+    .table-premium td {
         padding: 8px 2px !important;
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
     .table-premium td:nth-child(2),
     .table-premium td:nth-child(3),
     .table-premium td:nth-child(4) {
         white-space: nowrap;
     }
-    
+
     /* Ensayos table column widths on mobile */
     #yieldTableView .table-premium th:nth-child(1),
     #yieldTableView .table-premium td:nth-child(1) {
         width: 45%;
     }
+
     #yieldTableView .table-premium th:nth-child(2),
     #yieldTableView .table-premium td:nth-child(2) {
         width: 18%;
     }
+
     #yieldTableView .table-premium th:nth-child(3),
     #yieldTableView .table-premium td:nth-child(3) {
         width: 20%;
     }
+
     #yieldTableView .table-premium th:nth-child(4),
     #yieldTableView .table-premium td:nth-child(4) {
         width: 17%;
@@ -1022,10 +1043,12 @@ p {
     #simulador-tab .table-premium td:nth-child(1) {
         width: 42%;
     }
+
     #simulador-tab .table-premium th:nth-child(2),
     #simulador-tab .table-premium td:nth-child(2) {
         width: 25%;
     }
+
     #simulador-tab .table-premium th:nth-child(3),
     #simulador-tab .table-premium td:nth-child(3) {
         width: 33%;
@@ -1034,62 +1057,62 @@ p {
     .hide-mobile {
         display: none !important;
     }
-    
+
     /* Bento/Card padding */
     .bento-card {
         padding: 24px 8px;
         margin-bottom: 16px;
     }
-    
+
     /* What is BCL 900 mobile stack */
     .about-section {
         grid-template-columns: 1fr;
         gap: 24px;
     }
-    
+
     .about-text h2 {
         font-size: 1.6rem;
     }
-    
+
     .kpis-grid {
         gap: 12px;
     }
-    
+
     .kpi-card {
         padding: 16px 10px;
     }
-    
+
     .kpi-num {
         font-size: 1.3rem;
     }
-    
+
     /* Results stack */
     .results-bento {
         grid-template-columns: 1fr;
         gap: 16px;
     }
-    
+
     .inner-bento {
         padding: 20px 16px;
     }
-    
+
     .donde-container {
         flex-direction: column;
         align-items: stretch;
         gap: 16px;
     }
-    
+
     .donde-map-box {
         height: 200px;
         width: 100%;
     }
-    
+
     /* How to apply mobile vertical list (as in MockUpMobile.png) */
     .steps-grid {
         grid-template-columns: 1fr;
         gap: 12px;
     }
-    
+
     .step-card {
         flex-direction: row;
         text-align: left;
@@ -1097,7 +1120,7 @@ p {
         gap: 16px;
         align-items: center;
     }
-    
+
     .step-circle {
         margin-bottom: 0;
         width: 28px;
@@ -1105,53 +1128,55 @@ p {
         font-size: 0.8rem;
         flex-shrink: 0;
     }
-    
+
     .step-icon-img {
         font-size: 2rem;
         margin-bottom: 0;
         flex-shrink: 0;
     }
-    
+
     .step-card p {
         font-size: 0.85rem;
     }
-    
+
     .warning-box {
         padding: 14px;
         gap: 12px;
     }
-    
+
     /* Video & WhatsApp box stack */
     .interactive-section {
         grid-template-columns: 1fr;
         gap: 16px;
         margin-bottom: 32px;
     }
-    
+
     .video-box {
         padding: 20px 16px;
     }
-    
+
     .contact-card-dark {
         padding: 24px 20px;
     }
-    
+
     .contact-card-dark h3 {
         font-size: 1.5rem;
     }
-    
+
     .contact-card-dark p {
         font-size: 0.85rem;
         margin-bottom: 20px;
     }
-    
+
     /* Footer mobile stack */
     .main-footer {
         padding: 20px 16px 90px 16px;
     }
+
     .footer-logo {
         height: 20px;
     }
+
     .footer-top {
         flex-direction: row;
         justify-content: space-between;
@@ -1159,35 +1184,40 @@ p {
         flex-wrap: nowrap;
         gap: 8px;
     }
-    
+
     .footer-nav {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
         gap: 6px 12px;
     }
+
     .footer-nav a {
         font-size: 0.7rem;
     }
+
     .footer-socials a {
         font-size: 1.1rem;
     }
-    
+
     /* Bento mobile layouts stack helper */
     .stack-mobile {
         grid-template-columns: 1fr !important;
         gap: 16px !important;
     }
+
     .stack-mobile-header {
         flex-direction: column !important;
         align-items: stretch !important;
         gap: 10px !important;
     }
+
     .grid-2-col {
         grid-template-columns: 1fr;
         gap: 16px;
     }
-    .grid-2-col > * {
+
+    .grid-2-col>* {
         min-width: 0;
         overflow: hidden;
     }
